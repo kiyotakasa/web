@@ -1,0 +1,1604 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>myVent - Tu Tienda Virtual</title>
+    <style>
+        :root {
+            --primary: #4a6cf7;
+            --secondary: #3a56d4;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        /* Header */
+        .app-header {
+            background: white;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .logo-icon {
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 108, 247, 0.3);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .btn-whatsapp {
+            background: #25D366;
+            color: white;
+        }
+        
+        .btn-whatsapp:hover {
+            background: #128C7E;
+        }
+        
+        .btn-offer {
+            background: linear-gradient(135deg, #ff9a00, #ff5e00);
+            color: white;
+            font-weight: bold;
+        }
+        
+        .btn-offer:hover {
+            background: linear-gradient(135deg, #e68a00, #e65500);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 94, 0, 0.3);
+        }
+        
+        /* Contenedor principal */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            padding-bottom: 5rem;
+        }
+        
+        /* Pantallas */
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .screen.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Home Screen */
+        .hero-section {
+            background: white;
+            border-radius: 20px;
+            padding: 4rem 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--primary), #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 1.8rem;
+        }
+        
+        /* Auth Forms */
+        .auth-container {
+            max-width: 500px;
+            margin: 2rem auto;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .auth-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .auth-body {
+            padding: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.1);
+        }
+        
+        .form-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        /* Dashboard */
+        .dashboard-header {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+        
+        .welcome-message {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        .store-link-container {
+            background: #f8fafc;
+            border: 2px dashed #cbd5e1;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-top: 1rem;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .store-link {
+            flex: 1;
+            font-family: monospace;
+            padding: 8px 12px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            color: var(--primary);
+        }
+        
+        .copy-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .action-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        /* Product Management */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-image {
+            height: 200px;
+            background: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+        
+        .inventory-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 1;
+        }
+        
+        .product-info {
+            padding: 1.5rem;
+        }
+        
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .product-description {
+            color: var(--gray);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            max-height: 60px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .product-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+        
+        /* Add Product Form */
+        .upload-area {
+            border: 3px dashed #cbd5e1;
+            border-radius: 15px;
+            padding: 3rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+        
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(74, 108, 247, 0.05);
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .image-preview-container {
+            display: none;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .image-preview {
+            max-width: 300px;
+            max-height: 300px;
+            border-radius: 10px;
+            border: 3px solid #e2e8f0;
+            object-fit: contain;
+            margin-bottom: 1rem;
+        }
+        
+        /* Store View */
+        .store-header {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .store-name {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        .store-description {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+        
+        .store-contact {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .whatsapp-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #25D366;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+        
+        .whatsapp-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+        }
+        
+        /* Modal de Ofertas */
+        .offer-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        
+        .offer-modal.active {
+            display: flex;
+        }
+        
+        .offer-content {
+            background: white;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        
+        .offer-header {
+            background: linear-gradient(135deg, #ff9a00, #ff5e00);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .offer-body {
+            padding: 2rem;
+        }
+        
+        /* Alerts */
+        .alert {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            max-width: 400px;
+            transform: translateX(500px);
+            transition: transform 0.3s ease;
+            background: white; /* Fallback */
+        }
+        
+        .alert.show {
+            transform: translateX(0);
+        }
+        
+        .alert-success { background: #10b981; color: white; }
+        .alert-error { background: #ef4444; color: white; }
+        .alert-info { background: var(--primary); color: white; }
+        
+        /* Footer */
+        .app-footer {
+            text-align: center;
+            padding: 2rem;
+            color: white;
+            margin-top: 4rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container { padding: 0 1rem; }
+            .hero-title { font-size: 2.5rem; }
+            .header-content { flex-direction: column; gap: 1rem; }
+            .nav-buttons { width: 100%; justify-content: center; flex-wrap: wrap; }
+            .products-grid { grid-template-columns: 1fr; }
+            .store-link-container { flex-direction: column; }
+            .store-link { width: 100%; }
+        }
+        
+        /* Estilos para el selector de país */
+        .country-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 10px;
+            width: 100%;
+        }
+        
+        .country-selector select {
+            border: none;
+            outline: none;
+            background: transparent;
+            flex: 1;
+            font-size: 1rem;
+        }
+        
+        .phone-input-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .phone-input-group .form-input:first-child {
+            width: 120px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-content">
+            <a onclick="showScreen('home')" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-store"></i>
+                </div>
+                <div class="logo-text">myVent</div>
+            </a>
+            <div class="nav-buttons">
+                <button class="btn btn-outline" onclick="showScreen('explore')">
+                    <i class="fas fa-search"></i> Explorar
+                </button>
+                <button id="authBtn" class="btn btn-primary" onclick="showScreen('login')">
+                    <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div id="homeScreen" class="screen active">
+            <div class="hero-section">
+                <h1 class="hero-title">Tu Tienda Virtual en 5 Minutos</h1>
+                <p class="hero-subtitle">
+                    Crea tu catálogo, sube imágenes, comparte tu tienda y recibe ofertas por WhatsApp.
+                </p>
+                <button class="btn btn-primary" onclick="showScreen('register')" style="padding: 15px 40px; font-size: 1.1rem;">
+                    <i class="fas fa-rocket"></i> Crear Mi Tienda
+                </button>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-images"></i></div>
+                    <h3>Imágenes Fáciles</h3>
+                    <p>Sube fotos y se guardan automáticamente en tu tienda.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fab fa-whatsapp"></i></div>
+                    <h3>WhatsApp Directo</h3>
+                    <p>Recibe ofertas directamente en tu WhatsApp.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-link"></i></div>
+                    <h3>Link Personalizado</h3>
+                    <p>Comparte un link único de tu tienda.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="loginScreen" class="screen">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <h2 style="margin: 0; font-size: 1.8rem;">Iniciar Sesión</h2>
+                </div>
+                <div class="auth-body">
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" id="loginEmail" placeholder="tu@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Contraseña</label>
+                        <input type="password" class="form-input" id="loginPassword" placeholder="Tu contraseña">
+                    </div>
+                    <button class="btn btn-primary" onclick="login()" style="width: 100%; padding: 15px; margin-top: 10px;">
+                        <i class="fas fa-sign-in-alt"></i> Ingresar
+                    </button>
+                    <p style="text-align: center; margin-top: 1.5rem; color: var(--gray);">
+                        ¿No tienes cuenta? 
+                        <a href="#" onclick="showScreen('register')" style="color: var(--primary); text-decoration: none; font-weight: 600;">Regístrate aquí</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div id="registerScreen" class="screen">
+            <div class="auth-container">
+                <div class="auth-header">
+                    <h2 style="margin: 0; font-size: 1.8rem;">Crear Tienda</h2>
+                </div>
+                <div class="auth-body">
+                    <div class="form-group">
+                        <label class="form-label">Nombre Completo *</label>
+                        <input type="text" class="form-input" id="regName" placeholder="Tu nombre">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email *</label>
+                        <input type="email" class="form-input" id="regEmail" placeholder="tu@email.com">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Contraseña *</label>
+                        <input type="password" class="form-input" id="regPassword" placeholder="Mínimo 6 caracteres">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nombre de la Tienda *</label>
+                        <input type="text" class="form-input" id="regStoreName" placeholder="Ej: Mi Boutique">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">WhatsApp para Ofertas *</label>
+                        <div class="phone-input-group">
+                            <select class="form-input" id="countryCode" style="width: 100px;">
+                                <option value="51">🇵🇪 +51</option>
+                                <option value="52">🇲🇽 +52</option>
+                                <option value="54">🇦🇷 +54</option>
+                                <option value="55">🇧🇷 +55</option>
+                                <option value="56">🇨🇱 +56</option>
+                                <option value="57">🇨🇴 +57</option>
+                                <option value="58">🇻🇪 +58</option>
+                                <option value="1">🇺🇸 +1</option>
+                                <option value="34">🇪🇸 +34</option>
+                            </select>
+                            <input type="text" class="form-input" id="regWhatsApp" placeholder="Ej: 912345678" style="flex: 1;">
+                        </div>
+                        <small style="color: var(--gray);">Solo ingresa el número sin código de país ni ceros iniciales</small>
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="register()" style="width: 100%; padding: 15px; margin-top: 10px;">
+                        <i class="fas fa-store"></i> Crear Mi Tienda
+                    </button>
+                    <button class="btn btn-outline" onclick="showScreen('login')" style="width: 100%; padding: 15px; margin-top: 10px;">
+                        <i class="fas fa-arrow-left"></i> Volver al Login
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="dashboardScreen" class="screen">
+            <div class="dashboard-header">
+                <h1 class="welcome-message" id="welcomeMessage"></h1>
+                <p style="color: var(--gray);">Gestiona tu tienda y recibe ofertas</p>
+                
+                <div class="store-link-container">
+                    <input type="text" class="store-link" id="storeLink" readonly>
+                    <button class="copy-btn" onclick="copyStoreLink()">
+                        <i class="fas fa-copy"></i> Copiar
+                    </button>
+                    <button class="btn btn-primary" onclick="shareStore()">
+                        <i class="fas fa-share-alt"></i> Compartir
+                    </button>
+                </div>
+                <div class="store-contact" style="margin-top: 1rem;">
+                     <span id="storeWhatsApp" style="color:var(--gray); font-weight:bold;"></span>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalProducts">0</div>
+                    <p>Productos</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="storeViews">0</div>
+                    <p>Visitas</p>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="showScreen('addProduct')">
+                    <i class="fas fa-plus"></i> Agregar Producto
+                </button>
+                <button class="btn btn-outline" onclick="showScreen('myProducts')">
+                    <i class="fas fa-box"></i> Ver Productos
+                </button>
+                <button class="btn btn-outline" onclick="showScreen('explore')">
+                    <i class="fas fa-search"></i> Ver Otras Tiendas
+                </button>
+            </div>
+            
+            <h2 style="margin: 2rem 0 1rem; color: var(--dark);">Productos Recientes</h2>
+            <div class="products-grid" id="recentProducts">
+                </div>
+        </div>
+
+        <div id="addProductScreen" class="screen">
+            <h1 style="color: var(--dark); margin-bottom: 2rem;">
+                <i class="fas fa-plus"></i> Agregar Producto
+            </h1>
+            
+            <div class="upload-area" onclick="document.getElementById('productImageInput').click()" id="uploadArea">
+                <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                <h3>Sube una imagen</h3>
+                <p style="color: var(--gray);">Haz clic aquí para seleccionar</p>
+            </div>
+            <input type="file" id="productImageInput" accept="image/*" style="display: none;" onchange="handleImageSelect(event)">
+            
+            <div class="image-preview-container" id="imagePreviewContainer">
+                <img id="imagePreview" class="image-preview" alt="Vista previa">
+                <button onclick="clearImage()" class="btn btn-danger" style="margin-top: 1rem;">
+                    <i class="fas fa-trash"></i> Eliminar Imagen
+                </button>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Nombre del Producto *</label>
+                <input type="text" class="form-input" id="productName" placeholder="Ej: Zapatillas deportivas">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Descripción *</label>
+                <textarea class="form-textarea" id="productDescription" placeholder="Detalles del producto..."></textarea>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
+                <div class="form-group">
+                    <label class="form-label">Precio ($) *</label>
+                    <input type="number" class="form-input" id="productPrice" placeholder="0.00" step="0.01" min="0">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Stock *</label>
+                    <input type="number" class="form-input" id="productStock" placeholder="Cantidad" min="0">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Categoría *</label>
+                <select class="form-input" id="productCategory">
+                    <option value="ropa">Ropa</option>
+                    <option value="zapatos">Zapatos</option>
+                    <option value="electronica">Electrónica</option>
+                    <option value="hogar">Hogar</option>
+                    <option value="otros">Otros</option>
+                </select>
+            </div>
+            
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                <button class="btn btn-primary" onclick="saveProduct()">
+                    <i class="fas fa-save"></i> Guardar
+                </button>
+                <button class="btn btn-outline" onclick="showScreen('dashboard')">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+
+        <div id="myProductsScreen" class="screen">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h1 style="color: var(--dark);"><i class="fas fa-box"></i> Mis Productos</h1>
+                <button class="btn btn-primary" onclick="showScreen('addProduct')">
+                    <i class="fas fa-plus"></i> Nuevo
+                </button>
+            </div>
+            <div class="products-grid" id="userProducts"></div>
+            <button class="btn btn-outline" onclick="showScreen('dashboard')" style="margin-top:20px">Volver</button>
+        </div>
+
+        <div id="exploreScreen" class="screen">
+            <h1 style="color: var(--dark); margin-bottom: 2rem;">
+                <i class="fas fa-search"></i> Explorar Tiendas
+            </h1>
+            <div class="products-grid" id="storesList">
+                </div>
+            <button class="btn btn-outline" onclick="showScreen('home')" style="margin-top:20px">Volver</button>
+        </div>
+
+        <div id="storeScreen" class="screen">
+            <div class="store-header" id="publicStoreHeader">
+                </div>
+            <div id="storeProducts" class="products-grid">
+                </div>
+             <div style="text-align:center; margin-top:30px;">
+                <button class="btn btn-outline" onclick="showScreen('home')">Ir al Inicio</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="offerModal" class="offer-modal">
+        <div class="offer-content">
+            <div class="offer-header">
+                <h2 style="margin: 0; font-size: 1.5rem;"><i class="fas fa-tag"></i> Enviar Oferta</h2>
+                <p id="offerProductName" style="margin-top:5px; opacity:0.9"></p>
+            </div>
+            <div class="offer-body">
+                <div style="text-align: center; margin-bottom: 1rem;">
+                    <div style="font-size: 1.2rem; color: var(--gray);">Precio:</div>
+                    <div style="font-size: 2rem; font-weight: bold; color: var(--primary);" id="offerOriginalPrice"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Tu Oferta ($)</label>
+                    <input type="number" class="form-input" id="offerAmount" placeholder="0.00">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Mensaje (opcional)</label>
+                    <textarea class="form-textarea" id="offerMessage" placeholder="Hola, me interesa..."></textarea>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button class="btn btn-offer" onclick="sendOffer()" style="flex: 1;">
+                        <i class="fab fa-whatsapp"></i> Enviar WhatsApp
+                    </button>
+                    <button class="btn btn-outline" onclick="closeOfferModal()">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="alert" class="alert">
+        <i id="alertIcon"></i>
+        <span id="alertMessage"></span>
+    </div>
+
+    <footer class="app-footer">
+        <p>&copy; 2025 myVent - Tienda Virtual</p>
+    </footer>
+
+    <script>
+        // ========== CONFIGURACIÓN GLOBAL ==========
+        const DB_NAME = 'myventDB_v3'; // Versión 3 para forzar actualización
+        const DB_VERSION = 3;
+        let db;
+        let currentUser = null;
+        let currentStore = null;
+        let currentProductForOffer = null;
+        let currentImageData = null;
+
+        // ========== FUNCIONES DE VALIDACIÓN DE WHATSAPP ==========
+        function validateAndFormatWhatsAppNumber(countryCode, phoneNumber) {
+            // Eliminar todo excepto dígitos
+            let cleanNumber = phoneNumber.replace(/\D/g, '');
+            
+            if (!cleanNumber) {
+                throw new Error('Número WhatsApp requerido');
+            }
+            
+            // Eliminar ceros iniciales si los hay
+            if (cleanNumber.startsWith('0')) {
+                cleanNumber = cleanNumber.substring(1);
+            }
+            
+            // Verificar longitud mínima
+            if (cleanNumber.length < 8) {
+                throw new Error('Número muy corto. Mínimo 8 dígitos');
+            }
+            
+            // Verificar longitud máxima
+            if (cleanNumber.length > 12) {
+                throw new Error('Número muy largo');
+            }
+            
+            // Combinar código de país + número
+            const fullNumber = countryCode + cleanNumber;
+            
+            // Validar formato final (solo dígitos, sin símbolos)
+            if (!/^\d+$/.test(fullNumber)) {
+                throw new Error('Número contiene caracteres inválidos');
+            }
+            
+            if (fullNumber.length < 10 || fullNumber.length > 15) {
+                throw new Error('Número completo debe tener entre 10-15 dígitos');
+            }
+            
+            return fullNumber;
+        }
+
+        function formatWhatsAppForDisplay(whatsappNumber) {
+            if (!whatsappNumber) return 'Sin configurar';
+            
+            // Formatear para mostrar: +51 987 654 321
+            const cleaned = whatsappNumber.replace(/\D/g, '');
+            if (cleaned.length < 10) return whatsappNumber;
+            
+            const countryCode = cleaned.substring(0, cleaned.length - 9);
+            const number = cleaned.substring(countryCode.length);
+            
+            return `+${countryCode} ${number.substring(0, 3)} ${number.substring(3, 6)} ${number.substring(6)}`;
+        }
+
+        // ========== BASE DE DATOS ==========
+        function initDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(DB_NAME, DB_VERSION);
+                
+                request.onerror = (e) => {
+                    console.error("Error DB:", e);
+                    reject(e);
+                };
+                
+                request.onsuccess = (e) => {
+                    db = e.target.result;
+                    resolve(db);
+                };
+                
+                request.onupgradeneeded = (e) => {
+                    const db = e.target.result;
+                    
+                    if (!db.objectStoreNames.contains('users')) {
+                        const userStore = db.createObjectStore('users', { keyPath: 'id' });
+                        userStore.createIndex('email', 'email', { unique: true });
+                    }
+                    if (!db.objectStoreNames.contains('products')) {
+                        const productStore = db.createObjectStore('products', { keyPath: 'id' });
+                        productStore.createIndex('userId', 'userId');
+                        productStore.createIndex('storeId', 'storeId');
+                    }
+                    if (!db.objectStoreNames.contains('stores')) {
+                        const storeStore = db.createObjectStore('stores', { keyPath: 'id' });
+                        storeStore.createIndex('userId', 'userId', { unique: true });
+                        storeStore.createIndex('storeSlug', 'storeSlug', { unique: true });
+                    }
+                    if (!db.objectStoreNames.contains('whatsappConfig')) {
+                        db.createObjectStore('whatsappConfig', { keyPath: 'userId' });
+                    }
+                };
+            });
+        }
+
+        // ========== OPERACIONES CRUD ==========
+        
+        // --- USERS ---
+        function addUser(user) {
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(['users'], 'readwrite');
+                tx.objectStore('users').add(user);
+                tx.oncomplete = () => resolve(user);
+                tx.onerror = () => reject(tx.error);
+            });
+        }
+
+        function getUserByEmail(email) {
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(['users'], 'readonly');
+                const store = tx.objectStore('users');
+                const index = store.index('email');
+                const request = index.get(email);
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        // --- STORES ---
+        function addStore(storeData) {
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(['stores'], 'readwrite');
+                tx.objectStore('stores').add(storeData);
+                tx.oncomplete = () => resolve(storeData);
+                tx.onerror = () => reject(tx.error);
+            });
+        }
+
+        function getStoreByUser(userId) {
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(['stores'], 'readonly');
+                const index = tx.objectStore('stores').index('userId');
+                const request = index.get(userId);
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        function getStoreBySlug(slug) {
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(['stores'], 'readonly');
+                const index = tx.objectStore('stores').index('storeSlug');
+                const request = index.get(slug);
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        function getAllStores() {
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(['stores'], 'readonly');
+                const store = tx.objectStore('stores');
+                const request = store.getAll();
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        // --- PRODUCTS ---
+        function addProduct(product) {
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(['products'], 'readwrite');
+                tx.objectStore('products').add(product);
+                tx.oncomplete = () => resolve(product);
+                tx.onerror = () => reject(tx.error);
+            });
+        }
+
+        function getProductsByUser(userId) {
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(['products'], 'readonly');
+                const index = tx.objectStore('products').index('userId');
+                const request = index.getAll(userId);
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+            });
+        }
+        
+        function getProductById(id) {
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(['products'], 'readonly');
+                const request = tx.objectStore('products').get(id);
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        function deleteProduct(id) {
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(['products'], 'readwrite');
+                const request = tx.objectStore('products').delete(id);
+                tx.oncomplete = () => resolve();
+                tx.onerror = () => reject(tx.error);
+            });
+        }
+
+        // --- CONFIG ---
+        function saveWhatsAppConfig(config) {
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(['whatsappConfig'], 'readwrite');
+                tx.objectStore('whatsappConfig').put(config);
+                tx.oncomplete = () => resolve();
+                tx.onerror = () => reject(tx.error);
+            });
+        }
+        
+        function getWhatsAppConfig(userId) {
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(['whatsappConfig'], 'readonly');
+                const request = tx.objectStore('whatsappConfig').get(userId);
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+            });
+        }
+
+        // ========== LÓGICA DE UI Y NAVEGACIÓN ==========
+
+        function showScreen(screenName) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            const target = document.getElementById(screenName + 'Screen');
+            if(target) {
+                target.classList.add('active');
+                window.scrollTo(0,0);
+            }
+
+            if(screenName === 'dashboard') loadDashboard();
+            if(screenName === 'myProducts') loadUserProducts();
+            if(screenName === 'explore') loadAllStores();
+            
+            updateAuthButton();
+        }
+
+        function updateAuthButton() {
+            const btn = document.getElementById('authBtn');
+            if(currentUser) {
+                btn.innerHTML = '<i class="fas fa-store"></i> Mi Tienda';
+                btn.onclick = () => showScreen('dashboard');
+            } else {
+                btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Iniciar Sesión';
+                btn.onclick = () => showScreen('login');
+            }
+        }
+
+        // ========== IMÁGENES ==========
+        function handleImageSelect(event) {
+            const file = event.target.files[0];
+            if(!file) return;
+
+            if (file.size > 4 * 1024 * 1024) { // 4MB
+                showAlert('Imagen muy grande (max 4MB)', 'error');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                currentImageData = e.target.result;
+                document.getElementById('imagePreview').src = currentImageData;
+                document.getElementById('imagePreviewContainer').style.display = 'block';
+                document.getElementById('uploadArea').style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function clearImage() {
+            currentImageData = null;
+            document.getElementById('productImageInput').value = '';
+            document.getElementById('imagePreviewContainer').style.display = 'none';
+            document.getElementById('uploadArea').style.display = 'block';
+        }
+
+        // ========== AUTH & REGISTRO ==========
+        async function register() {
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const pass = document.getElementById('regPassword').value;
+            const storeName = document.getElementById('regStoreName').value;
+            const countryCode = document.getElementById('countryCode').value;
+            const whatsapp = document.getElementById('regWhatsApp').value;
+
+            if(!name || !email || !pass || !storeName || !countryCode || !whatsapp) {
+                showAlert('Completa todos los campos', 'error');
+                return;
+            }
+
+            try {
+                const exists = await getUserByEmail(email);
+                if(exists) throw new Error("El email ya existe");
+
+                const userId = Date.now();
+                const newUser = { id: userId, name, email, password: pass };
+                
+                // Validar y formatear WhatsApp
+                const formattedWhatsApp = validateAndFormatWhatsAppNumber(countryCode, whatsapp);
+                
+                // Generar slug simple
+                const slug = storeName.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '') + '-' + Math.floor(Math.random()*1000);
+                
+                const newStore = { 
+                    id: 'store_'+userId, 
+                    userId, 
+                    name: storeName, 
+                    storeSlug: slug, 
+                    views: 0 
+                };
+                
+                const config = { 
+                    userId, 
+                    whatsappNumber: formattedWhatsApp,
+                    countryCode: countryCode
+                };
+
+                await addUser(newUser);
+                await addStore(newStore);
+                await saveWhatsAppConfig(config);
+
+                currentUser = newUser;
+                currentStore = newStore;
+                
+                showAlert('¡Cuenta creada!', 'success');
+                showScreen('dashboard');
+            } catch(e) {
+                showAlert(e.message, 'error');
+            }
+        }
+
+        async function login() {
+            const email = document.getElementById('loginEmail').value;
+            const pass = document.getElementById('loginPassword').value;
+
+            try {
+                const user = await getUserByEmail(email);
+                if(!user || user.password !== pass) {
+                    showAlert('Credenciales incorrectas', 'error');
+                    return;
+                }
+
+                currentUser = user;
+                currentStore = await getStoreByUser(user.id);
+                showAlert('Bienvenido de nuevo', 'success');
+                showScreen('dashboard');
+            } catch(e) {
+                console.error(e);
+                showAlert('Error al iniciar sesión', 'error');
+            }
+        }
+
+        // ========== DASHBOARD & PRODUCTOS ==========
+        async function loadDashboard() {
+            if(!currentUser) return;
+            document.getElementById('welcomeMessage').innerText = `Hola, ${currentUser.name}`;
+            
+            // Generar Link
+            const link = `${window.location.origin}${window.location.pathname}?store=${currentStore.storeSlug}`;
+            document.getElementById('storeLink').value = link;
+            
+            // Stats
+            const products = await getProductsByUser(currentUser.id);
+            document.getElementById('totalProducts').innerText = products.length;
+            document.getElementById('storeViews').innerText = currentStore.views || 0;
+
+            // Config WhatsApp
+            const config = await getWhatsAppConfig(currentUser.id);
+            const whatsappDisplay = config ? formatWhatsAppForDisplay(config.whatsappNumber) : 'Sin configurar';
+            document.getElementById('storeWhatsApp').innerText = `WhatsApp: ${whatsappDisplay}`;
+
+            // Productos Recientes
+            const recent = products.slice(-3).reverse();
+            const container = document.getElementById('recentProducts');
+            container.innerHTML = recent.map(p => renderProductCard(p, true)).join('');
+        }
+
+        async function saveProduct() {
+            if(!currentUser) return;
+            
+            const name = document.getElementById('productName').value;
+            const price = document.getElementById('productPrice').value;
+            const stock = document.getElementById('productStock').value;
+            
+            if(!name || !price) {
+                showAlert('Nombre y precio son obligatorios', 'error');
+                return;
+            }
+
+            const newProduct = {
+                id: 'prod_' + Date.now(),
+                userId: currentUser.id,
+                storeId: currentStore.id,
+                name: name,
+                description: document.getElementById('productDescription').value,
+                price: parseFloat(price),
+                stock: parseInt(stock),
+                category: document.getElementById('productCategory').value,
+                image: currentImageData || 'https://via.placeholder.com/300?text=Sin+Imagen',
+                createdAt: new Date()
+            };
+
+            await addProduct(newProduct);
+            showAlert('Producto guardado', 'success');
+            clearImage();
+            
+            // Limpiar campos
+            document.getElementById('productName').value = '';
+            document.getElementById('productDescription').value = '';
+            document.getElementById('productPrice').value = '';
+            
+            showScreen('dashboard');
+        }
+
+        async function loadUserProducts() {
+            const products = await getProductsByUser(currentUser.id);
+            const container = document.getElementById('userProducts');
+            
+            if(products.length === 0) {
+                container.innerHTML = '<p style="text-align:center; width:100%; color:gray">No tienes productos aún.</p>';
+            } else {
+                container.innerHTML = products.map(p => renderProductCard(p, true)).join('');
+            }
+        }
+
+        // ========== VISTA PÚBLICA & EXPLORAR ==========
+        async function loadAllStores() {
+            try {
+                const stores = await getAllStores();
+                const container = document.getElementById('storesList');
+                if(stores.length === 0) {
+                    container.innerHTML = '<p>No hay tiendas registradas.</p>';
+                    return;
+                }
+                
+                container.innerHTML = stores.map(store => `
+                    <div class="product-card" style="padding:20px; text-align:center">
+                        <div class="feature-icon" style="margin:0 auto 10px auto; width:50px; height:50px; font-size:1.2rem">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <h3>${store.name}</h3>
+                        <button class="btn btn-primary" style="margin-top:10px" onclick="openPublicStore('${store.storeSlug}')">
+                            Visitar Tienda
+                        </button>
+                    </div>
+                `).join('');
+            } catch(e) {
+                console.error(e);
+            }
+        }
+
+        async function openPublicStore(slug) {
+            try {
+                const store = await getStoreBySlug(slug);
+                if(!store) {
+                    showAlert('Tienda no encontrada', 'error');
+                    return;
+                }
+                
+                // Cargar header de tienda
+                document.getElementById('publicStoreHeader').innerHTML = `
+                    <h1 class="store-name">${store.name}</h1>
+                    <p>Bienvenido a nuestra tienda virtual</p>
+                `;
+
+                // Cargar productos
+                const products = await getProductsByUser(store.userId);
+                const container = document.getElementById('storeProducts');
+                container.innerHTML = products.map(p => renderProductCard(p, false)).join('');
+                
+                showScreen('store');
+            } catch(e) {
+                console.error(e);
+            }
+        }
+
+        function renderProductCard(product, isOwner) {
+            let actionBtn = '';
+            if(isOwner) {
+                actionBtn = `<button class="btn btn-danger" style="width:100%" onclick="deleteProductWrapper('${product.id}')"><i class="fas fa-trash"></i> Eliminar</button>`;
+            } else {
+                actionBtn = `<button class="btn btn-offer" style="width:100%" onclick="setupOffer('${product.id}')"><i class="fas fa-tag"></i> Ofertar</button>`;
+            }
+
+            return `
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}">
+                    </div>
+                    <div class="product-info">
+                        <div style="display:flex; justify-content:space-between">
+                            <h3 class="product-title">${product.name}</h3>
+                            <div class="product-price">$${product.price}</div>
+                        </div>
+                        <p class="product-description">${product.description || ''}</p>
+                        <div style="margin-top:10px">
+                            ${actionBtn}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        async function deleteProductWrapper(id) {
+            if(confirm('¿Borrar producto?')) {
+                await deleteProduct(id);
+                loadUserProducts();
+                showAlert('Eliminado', 'success');
+            }
+        }
+
+        // ========== COMPARTIR Y OFERTAS ==========
+        function copyStoreLink() {
+            const copyText = document.getElementById("storeLink");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(copyText.value);
+            showAlert("Enlace copiado", "success");
+        }
+
+        function shareStore() {
+            const url = document.getElementById("storeLink").value;
+            const data = {
+                title: 'Mi Tienda en myVent',
+                text: '¡Mira mis productos!',
+                url: url
+            };
+            
+            if (navigator.share) {
+                navigator.share(data).catch(console.error);
+            } else {
+                copyStoreLink();
+                showAlert("Compartir no soportado. Enlace copiado.", "info");
+            }
+        }
+
+        async function setupOffer(productId) {
+            currentProductForOffer = await getProductById(productId);
+            document.getElementById('offerProductName').innerText = currentProductForOffer.name;
+            document.getElementById('offerOriginalPrice').innerText = '$' + currentProductForOffer.price;
+            document.getElementById('offerModal').classList.add('active');
+        }
+
+        function closeOfferModal() {
+            document.getElementById('offerModal').classList.remove('active');
+        }
+
+        async function sendOffer() {
+            const amount = document.getElementById('offerAmount').value;
+            const msg = document.getElementById('offerMessage').value;
+            
+            if(!amount) {
+                showAlert('Ingresa un monto para la oferta', 'error');
+                return;
+            }
+
+            // Obtener número del dueño
+            const config = await getWhatsAppConfig(currentProductForOffer.userId);
+            if(!config || !config.whatsappNumber) {
+                showAlert('El vendedor no tiene WhatsApp configurado', 'error');
+                return;
+            }
+
+            try {
+                // Usar el número ya validado que está en la DB
+                let whatsappNumber = config.whatsappNumber;
+                
+                // Asegurar que solo tenga dígitos
+                whatsappNumber = whatsappNumber.replace(/\D/g, '');
+                
+                // Verificación final
+                if(whatsappNumber.length < 10) {
+                    throw new Error('Número inválido');
+                }
+
+                const text = `Hola! Me interesa *${currentProductForOffer.name}*. Precio original: $${currentProductForOffer.price}. \n\n*Mi Oferta: $${amount}* \n\n${msg || 'Sin mensaje adicional'}`;
+                
+                // CONSTRUIR URL CORRECTAMENTE - CORRECCIÓN PRINCIPAL
+                const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`;
+                
+                console.log('URL WhatsApp generada:', url); // Para debug
+                
+                window.open(url, '_blank');
+                closeOfferModal();
+                
+            } catch(e) {
+                console.error('Error al generar URL WhatsApp:', e);
+                showAlert('Error al conectar con WhatsApp: ' + e.message, 'error');
+            }
+        }
+
+        // ========== UTILIDADES ==========
+        function showAlert(msg, type) {
+            const alert = document.getElementById('alert');
+            const icon = document.getElementById('alertIcon');
+            const text = document.getElementById('alertMessage');
+            
+            text.innerText = msg;
+            alert.className = `alert alert-${type} show`;
+            
+            if(type === 'success') icon.className = 'fas fa-check';
+            if(type === 'error') icon.className = 'fas fa-times';
+            
+            setTimeout(() => alert.classList.remove('show'), 3000);
+        }
+
+        // ========== INICIO ==========
+        window.addEventListener('load', async () => {
+            await initDB();
+            
+            // Revisar URL para ver si es una tienda pública
+            const urlParams = new URLSearchParams(window.location.search);
+            const storeSlug = urlParams.get('store');
+            
+            if(storeSlug) {
+                openPublicStore(storeSlug);
+            } else {
+                showScreen('home');
+            }
+        });
+
+    </script>
+</body>
+</html>
